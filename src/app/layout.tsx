@@ -207,14 +207,8 @@ export default function RootLayout({
 
   return (
     <html lang="tr" className="dark scroll-smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Press+Start+2P&display=swap"
-          rel="stylesheet"
-        />
-        {/* JSON-LD Rich Schemas for #1 Google Search Ranking & 100% Lighthouse SEO */}
+      <body className="bg-[#050505] text-white/90 antialiased selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
+        {/* JSON-LD Rich Schemas inside body for Next.js App Router Hydration Safety */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
@@ -235,8 +229,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
-      </head>
-      <body className="bg-[#050505] text-white/90 antialiased selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
         {children}
       </body>
     </html>
