@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useCallback } from 'react'
-import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion'
+import { motion, useScroll, useSpring, useMotionValueEvent } from 'framer-motion'
 
 interface ExplodingSequenceProps {
   totalFrames?: number
@@ -29,7 +29,7 @@ export const ExplodingSequence: React.FC<ExplodingSequenceProps> = ({
     restDelta: 0.0005,
   })
 
-  // Procedural 3D Neon Spiral Rendering Engine (No Disk Image Required!)
+  // Procedural 3D Neon Spiral Rendering Engine (Bulletproof Error-Free)
   const draw3DSpiral = useCallback((progress: number) => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -49,11 +49,14 @@ export const ExplodingSequence: React.FC<ExplodingSequenceProps> = ({
     ctx.imageSmoothingEnabled = true
     ctx.imageSmoothingQuality = 'high'
 
+    // Safe Progress Normalization
+    const safeProgress = isNaN(progress) ? 0 : Math.max(0, Math.min(1, progress))
+
     // Dynamic 3D Transformations based on scroll progress
-    const rotationX = progress * Math.PI * 4
-    const rotationY = progress * Math.PI * 6
-    const twistFactor = progress * 8.5
-    const zoomScale = Math.min(w, h) * (0.28 + progress * 0.22)
+    const rotationX = safeProgress * Math.PI * 4
+    const rotationY = safeProgress * Math.PI * 6
+    const twistFactor = safeProgress * 8.5
+    const zoomScale = Math.min(w, h) * (0.28 + safeProgress * 0.22)
 
     // Neon Cyber Color Palette
     const colorStops = [
@@ -65,14 +68,18 @@ export const ExplodingSequence: React.FC<ExplodingSequenceProps> = ({
     ]
 
     const interpolateColor = (t: number) => {
-      const idx = (t * (colorStops.length - 1)) % (colorStops.length - 1)
-      const i1 = Math.floor(idx)
+      const normT = Math.max(0, Math.min(1, isNaN(t) ? 0 : Math.abs(t) % 1))
+      const scaled = normT * (colorStops.length - 1)
+      const i1 = Math.min(colorStops.length - 1, Math.max(0, Math.floor(scaled)))
       const i2 = Math.min(colorStops.length - 1, i1 + 1)
-      const ratio = idx - i1
+      const ratio = scaled - i1
 
-      const r = Math.floor(colorStops[i1].r + (colorStops[i2].r - colorStops[i1].r) * ratio)
-      const g = Math.floor(colorStops[i1].g + (colorStops[i2].g - colorStops[i1].g) * ratio)
-      const b = Math.floor(colorStops[i1].b + (colorStops[i2].b - colorStops[i1].b) * ratio)
+      const c1 = colorStops[i1] || colorStops[0]
+      const c2 = colorStops[i2] || c1
+
+      const r = Math.floor(c1.r + (c2.r - c1.r) * ratio)
+      const g = Math.floor(c1.g + (c2.g - c1.g) * ratio)
+      const b = Math.floor(c1.b + (c2.b - c1.b) * ratio)
 
       return `rgb(${r}, ${g}, ${b})`
     }
@@ -89,7 +96,7 @@ export const ExplodingSequence: React.FC<ExplodingSequenceProps> = ({
 
       for (let i = 0; i < pointsPerArm; i++) {
         const step = i / pointsPerArm
-        const spiralRadius = step * zoomScale * (1 + Math.sin(step * 10 + progress * 8) * 0.15)
+        const spiralRadius = step * zoomScale * (1 + Math.sin(step * 10 + safeProgress * 8) * 0.15)
         const angle = step * Math.PI * 10 + armAngleOffset + rotationY + step * twistFactor
 
         // 3D Point Coordinates
@@ -109,11 +116,11 @@ export const ExplodingSequence: React.FC<ExplodingSequenceProps> = ({
         const x2d = cx + x3d * perspectiveScale
         const y2d = cy + yRotated * perspectiveScale
 
-        const nodeColor = interpolateColor((step + arm / arms + progress) % 1)
+        const nodeColor = interpolateColor((step + arm / arms + safeProgress) % 1)
 
         // Draw Spiral Strand Points with Neon Glow
         ctx.shadowColor = nodeColor
-        ctx.shadowBlur = perspectiveScale * 25
+        ctx.shadowBlur = Math.max(1, perspectiveScale * 25)
 
         ctx.fillStyle = nodeColor
         ctx.beginPath()
@@ -124,7 +131,7 @@ export const ExplodingSequence: React.FC<ExplodingSequenceProps> = ({
         // Connecting strands
         if (i > 0) {
           const prevStep = (i - 1) / pointsPerArm
-          const prevRadius = prevStep * zoomScale * (1 + Math.sin(prevStep * 10 + progress * 8) * 0.15)
+          const prevRadius = prevStep * zoomScale * (1 + Math.sin(prevStep * 10 + safeProgress * 8) * 0.15)
           const prevAngle = prevStep * Math.PI * 10 + armAngleOffset + rotationY + prevStep * twistFactor
 
           let px3d = Math.cos(prevAngle) * prevRadius
@@ -150,7 +157,7 @@ export const ExplodingSequence: React.FC<ExplodingSequenceProps> = ({
 
     // Center Core 3D Glowing Energy Orb
     ctx.save()
-    const coreColor = interpolateColor(progress)
+    const coreColor = interpolateColor(safeProgress)
     ctx.shadowColor = coreColor
     ctx.shadowBlur = 60
     ctx.fillStyle = coreColor
