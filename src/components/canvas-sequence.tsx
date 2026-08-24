@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useEffect, useRef, useState, useCallback } from 'react'
-import { motion, useScroll, useTransform, useSpring, useMotionValueEvent, AnimatePresence } from 'framer-motion'
+import React, { useEffect, useRef, useCallback } from 'react'
+import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion'
 
 interface ExplodingSequenceProps {
   totalFrames?: number
@@ -10,185 +10,193 @@ interface ExplodingSequenceProps {
 }
 
 export const ExplodingSequence: React.FC<ExplodingSequenceProps> = ({
-  totalFrames = 300,
   containerRef,
   bgColor = '#050505',
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const imagesRef = useRef<HTMLImageElement[]>([])
   const animationFrameIdRef = useRef<number | null>(null)
-  
-  const [imagesLoaded, setImagesLoaded] = useState<boolean>(false)
-  const [loadPercentage, setLoadPercentage] = useState<number>(0)
 
-  // Scroll takibi
+  // Scroll takibi [0.0 -> 1.0]
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   })
 
-  // 0 -> 1 scroll ilerlemesini [0, totalFrames - 1] kare indeksine dönüştürme
-  const rawFrameIndex = useTransform(scrollYProgress, [0, 1], [0, totalFrames - 1])
-
-  // Akıcı 60fps kaydırma için useSpring kullanımı
-  const smoothFrameIndex = useSpring(rawFrameIndex, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
+  // 60fps akıcı yay etkisi (smooth spring)
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 25,
+    restDelta: 0.0005,
   })
 
-  // Kare dosya yolu oluşturucu
-  const getFrameUrl = (index: number): string => {
-    const padded = String(index + 1).padStart(3, '0')
-    return `/images/ezgif-frame-${padded}.jpg`
-  }
-
-  // 8K Ultra High Definition (UHD) HTML5 Canvas Çizim Fonksiyonu
-  const drawFrame = useCallback((frameIndexNumber: number) => {
+  // Procedural 3D Neon Spiral Rendering Engine (No Disk Image Required!)
+  const draw3DSpiral = useCallback((progress: number) => {
     const canvas = canvasRef.current
     if (!canvas) return
-    const ctx = canvas.getContext('2d', { alpha: false, willReadFrequently: false })
+    const ctx = canvas.getContext('2d', { alpha: false })
     if (!ctx) return
 
-    // 8K UHD Yüksek Kaliteli Bikübik Keskinleştirme & Renk Doygunluk Filtresi
+    const w = canvas.width
+    const h = canvas.height
+    const cx = w / 2
+    const cy = h / 2
+
+    // Screen fill background
+    ctx.fillStyle = bgColor
+    ctx.fillRect(0, 0, w, h)
+
+    // 8K High-DPI Quality Smoothing
     ctx.imageSmoothingEnabled = true
     ctx.imageSmoothingQuality = 'high'
-    ctx.filter = 'contrast(106%) saturate(108%)'
 
-    const clampedIndex = Math.min(totalFrames - 1, Math.max(0, Math.round(frameIndexNumber)))
-    const img = imagesRef.current[clampedIndex]
+    // Dynamic 3D Transformations based on scroll progress
+    const rotationX = progress * Math.PI * 4
+    const rotationY = progress * Math.PI * 6
+    const twistFactor = progress * 8.5
+    const zoomScale = Math.min(w, h) * (0.28 + progress * 0.22)
 
-    if (!img || !img.complete || img.naturalWidth === 0) return
+    // Neon Cyber Color Palette
+    const colorStops = [
+      { r: 0, g: 240, b: 255 },   // Cyan #00f0ff
+      { r: 112, g: 0, b: 255 },   // Purple #7000ff
+      { r: 255, g: 0, b: 127 },   // Pink #ff007f
+      { r: 255, g: 234, b: 0 },   // Yellow #ffea00
+      { r: 16, g: 185, b: 129 },  // Emerald #10b981
+    ]
 
-    const canvasWidth = canvas.width
-    const canvasHeight = canvas.height
+    const interpolateColor = (t: number) => {
+      const idx = (t * (colorStops.length - 1)) % (colorStops.length - 1)
+      const i1 = Math.floor(idx)
+      const i2 = Math.min(colorStops.length - 1, i1 + 1)
+      const ratio = idx - i1
 
-    // Arka plan mat siyah dolgu
-    ctx.fillStyle = bgColor
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+      const r = Math.floor(colorStops[i1].r + (colorStops[i2].r - colorStops[i1].r) * ratio)
+      const g = Math.floor(colorStops[i1].g + (colorStops[i2].g - colorStops[i1].g) * ratio)
+      const b = Math.floor(colorStops[i1].b + (colorStops[i2].b - colorStops[i1].b) * ratio)
 
-    // Orantılı 8K UHD contain sığdırma hesabı
-    const imgWidth = img.naturalWidth
-    const imgHeight = img.naturalHeight
-    const scale = Math.min(canvasWidth / imgWidth, canvasHeight / imgHeight) * 0.90
+      return `rgb(${r}, ${g}, ${b})`
+    }
 
-    const drawWidth = imgWidth * scale
-    const drawHeight = imgHeight * scale
-    const drawX = (canvasWidth - drawWidth) / 2
-    const drawY = (canvasHeight - drawHeight) / 2
+    // Number of spiral arms & nodes
+    const arms = 5
+    const pointsPerArm = 180
 
-    ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight)
-  }, [bgColor, totalFrames])
+    for (let arm = 0; arm < arms; arm++) {
+      const armAngleOffset = (arm / arms) * Math.PI * 2
 
-  // 8K Ultra High-DPI Super-Resolution Tuval Boyutlandırması
+      ctx.save()
+      ctx.lineWidth = Math.max(3, Math.min(w, h) * 0.005)
+
+      for (let i = 0; i < pointsPerArm; i++) {
+        const step = i / pointsPerArm
+        const spiralRadius = step * zoomScale * (1 + Math.sin(step * 10 + progress * 8) * 0.15)
+        const angle = step * Math.PI * 10 + armAngleOffset + rotationY + step * twistFactor
+
+        // 3D Point Coordinates
+        let x3d = Math.cos(angle) * spiralRadius
+        let y3d = Math.sin(angle) * spiralRadius
+        let z3d = (step - 0.5) * zoomScale * 1.8
+
+        // 3D Rotation Matrix X & Y
+        const cosX = Math.cos(rotationX)
+        const sinX = Math.sin(rotationX)
+        const yRotated = y3d * cosX - z3d * sinX
+        const zRotated = y3d * sinX + z3d * cosX
+
+        // Perspective Projection
+        const fov = 900
+        const perspectiveScale = fov / (fov + zRotated + 400)
+        const x2d = cx + x3d * perspectiveScale
+        const y2d = cy + yRotated * perspectiveScale
+
+        const nodeColor = interpolateColor((step + arm / arms + progress) % 1)
+
+        // Draw Spiral Strand Points with Neon Glow
+        ctx.shadowColor = nodeColor
+        ctx.shadowBlur = perspectiveScale * 25
+
+        ctx.fillStyle = nodeColor
+        ctx.beginPath()
+        const nodeRadius = Math.max(2.5, (step * 8 + 3) * perspectiveScale)
+        ctx.arc(x2d, y2d, nodeRadius, 0, Math.PI * 2)
+        ctx.fill()
+
+        // Connecting strands
+        if (i > 0) {
+          const prevStep = (i - 1) / pointsPerArm
+          const prevRadius = prevStep * zoomScale * (1 + Math.sin(prevStep * 10 + progress * 8) * 0.15)
+          const prevAngle = prevStep * Math.PI * 10 + armAngleOffset + rotationY + prevStep * twistFactor
+
+          let px3d = Math.cos(prevAngle) * prevRadius
+          let py3d = Math.sin(prevAngle) * prevRadius
+          let pz3d = (prevStep - 0.5) * zoomScale * 1.8
+
+          const pyRotated = py3d * cosX - pz3d * sinX
+          const pzRotated = py3d * sinX + pz3d * cosX
+
+          const pScale = fov / (fov + pzRotated + 400)
+          const px2d = cx + px3d * pScale
+          const py2d = cy + pyRotated * pScale
+
+          ctx.strokeStyle = nodeColor
+          ctx.beginPath()
+          ctx.moveTo(px2d, py2d)
+          ctx.lineTo(x2d, y2d)
+          ctx.stroke()
+        }
+      }
+      ctx.restore()
+    }
+
+    // Center Core 3D Glowing Energy Orb
+    ctx.save()
+    const coreColor = interpolateColor(progress)
+    ctx.shadowColor = coreColor
+    ctx.shadowBlur = 60
+    ctx.fillStyle = coreColor
+    ctx.beginPath()
+    ctx.arc(cx, cy, Math.max(12, Math.min(w, h) * 0.025), 0, Math.PI * 2)
+    ctx.fill()
+    ctx.restore()
+
+  }, [bgColor])
+
+  // Handle Resize for 8K High-DPI Buffer
   const handleResize = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    // 8K Ultra HD Çözünürlük Çarpanı (High-DPI 3x Super-Sampling)
     const dpr = Math.max(window.devicePixelRatio || 1, 3)
     const rect = canvas.getBoundingClientRect()
 
     canvas.width = Math.floor(rect.width * dpr)
     canvas.height = Math.floor(rect.height * dpr)
 
-    drawFrame(smoothFrameIndex.get())
-  }, [drawFrame, smoothFrameIndex])
+    draw3DSpiral(smoothProgress.get())
+  }, [draw3DSpiral, smoothProgress])
 
-  // Görselleri önceden yükleme ve ilerleme yüzdesi hesabı
+  // Event listener for window resize
   useEffect(() => {
-    let loadedCount = 0
-    const images: HTMLImageElement[] = []
-
-    for (let i = 0; i < totalFrames; i++) {
-      const img = new Image()
-      img.src = getFrameUrl(i)
-
-      img.onload = () => {
-        loadedCount++
-        setLoadPercentage(Math.floor((loadedCount / totalFrames) * 100))
-
-        if (loadedCount === totalFrames) {
-          setImagesLoaded(true)
-          requestAnimationFrame(() => handleResize())
-        }
-      }
-
-      img.onerror = () => {
-        loadedCount++
-        setLoadPercentage(Math.floor((loadedCount / totalFrames) * 100))
-        if (loadedCount === totalFrames) {
-          setImagesLoaded(true)
-        }
-      }
-
-      images.push(img)
-    }
-
-    imagesRef.current = images
-
-    return () => {
-      imagesRef.current = []
-    }
-  }, [totalFrames, handleResize])
-
-  // Resize dinleyicisi
-  useEffect(() => {
+    handleResize()
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [handleResize])
 
-  // Bellek sızıntılarını önlemek için requestAnimationFrame döngüsü
-  useMotionValueEvent(smoothFrameIndex, 'change', (latestFrame) => {
-    if (!imagesLoaded) return
-
+  // Motion Value listener for scroll animations
+  useMotionValueEvent(smoothProgress, 'change', (latestProgress) => {
     if (animationFrameIdRef.current !== null) {
       cancelAnimationFrame(animationFrameIdRef.current)
     }
 
     animationFrameIdRef.current = requestAnimationFrame(() => {
-      drawFrame(latestFrame)
+      draw3DSpiral(latestProgress)
     })
   })
 
   return (
-    <>
-      {/* 8K UHD Yükleme Ekranı */}
-      <AnimatePresence>
-        {!imagesLoaded && (
-          <motion.div
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: 'easeInOut' }}
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#050505] text-white select-none"
-          >
-            <div className="flex flex-col items-center max-w-xs w-full px-6">
-              <span className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest mb-4">
-                8K ULTRA HD KARE SEKANSI YÜKLENİYOR
-              </span>
-              
-              {/* İlerleme Çubuğu */}
-              <div className="w-full bg-white/10 h-[2px] rounded-full overflow-hidden mb-4 border border-white/5">
-                <motion.div
-                  className="h-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500"
-                  style={{ width: `${loadPercentage}%` }}
-                />
-              </div>
-
-              <div className="flex justify-between w-full font-mono text-[10px] text-white/60 tracking-wider">
-                <span>300 KARE 8K UŞD</span>
-                <span>{loadPercentage}%</span>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* 8K UHD HTML5 Canvas Yüzeyi */}
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full object-contain pointer-events-none z-10 [image-rendering:-webkit-optimize-contrast]"
-      />
-    </>
+    <canvas
+      ref={canvasRef}
+      className="w-full h-full object-contain pointer-events-none z-10 [image-rendering:-webkit-optimize-contrast]"
+    />
   )
 }
