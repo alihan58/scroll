@@ -9,10 +9,14 @@ import { FAQSection } from '@/components/FAQSection'
 import { GoogleMapSection } from '@/components/GoogleMapSection'
 import { Footer } from '@/components/footer'
 import { StickyPhoneCTA } from '@/components/StickyPhoneCTA'
+import { CustomAlienCursor } from '@/components/CustomAlienCursor'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#050505] text-white selection:bg-cyan-500/30 selection:text-cyan-200 relative">
+    <main className="min-h-screen bg-[#050505] text-white selection:bg-cyan-500/30 selection:text-cyan-200 relative lg:cursor-none">
+      {/* Custom Retro 8-Bit Alien Head Cursor */}
+      <CustomAlienCursor />
+
       {/* Top CTA Announcement Ribbon */}
       <TopBanner />
 
