@@ -3,6 +3,7 @@
 import React, { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ExplodingSequence } from '@/components/canvas-sequence'
+import { FireworksTitle } from '@/components/FireworksTitle'
 import { ChevronDown, Sparkles, Layers, Cpu } from 'lucide-react'
 
 export const ScrollytellingSection: React.FC = () => {
@@ -46,9 +47,9 @@ export const ScrollytellingSection: React.FC = () => {
         {/* 1. Hero Katmanı [0.0 - 0.20] */}
         <motion.div
           style={{ opacity: heroOpacity, y: heroY }}
-          className="absolute inset-0 z-20 flex flex-col items-center justify-between py-16 sm:py-20 px-4 sm:px-6 pointer-events-none"
+          className="absolute inset-0 z-20 flex flex-col items-center justify-between py-12 sm:py-16 px-4 sm:px-6 pointer-events-none"
         >
-          <div className="mt-12 sm:mt-16 text-center max-w-4xl">
+          <div className="mt-8 sm:mt-12 text-center max-w-5xl pointer-events-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -59,20 +60,14 @@ export const ScrollytellingSection: React.FC = () => {
               <span>PORTFOLYO & KREATİF MÜHENDİSLİK</span>
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-4xl sm:text-8xl md:text-9xl font-extrabold tracking-tight text-white/90 mb-4 sm:mb-6 leading-tight"
-            >
-              Alihan <span className="text-gradient-cyan">CENAN</span>
-            </motion.h1>
+            {/* Fireworks Explosion & Flowing Gradient Title */}
+            <FireworksTitle />
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="text-lg sm:text-3xl text-white/60 font-light tracking-tight max-w-2xl mx-auto leading-relaxed"
+              className="text-lg sm:text-3xl text-white/80 font-light tracking-tight max-w-2xl mx-auto leading-relaxed mt-4 sm:mt-6"
             >
               Tasarım Uzmanı & Kreatif Web Geliştirici
             </motion.p>
@@ -82,7 +77,7 @@ export const ScrollytellingSection: React.FC = () => {
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-            className="flex flex-col items-center space-y-2 text-white/40 mb-4"
+            className="flex flex-col items-center space-y-2 text-white/40 mb-4 pointer-events-none"
           >
             <span className="text-[10px] font-mono uppercase tracking-widest">Ayrıştırmak İçin Kaydırın</span>
             <div className="w-5 h-5 rounded-full border border-white/20 flex items-center justify-center">
