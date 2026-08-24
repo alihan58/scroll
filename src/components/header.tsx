@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Music, ArrowUpRight, Menu, X } from 'lucide-react'
+import { Music, ArrowUpRight, Menu, X, Paintbrush } from 'lucide-react'
 import { chiptuneEngine } from '@/lib/audio8bit'
 
 export const Header: React.FC = () => {
@@ -18,8 +19,8 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const toggleAudio = () => {
-    const newState = chiptuneEngine.toggle()
+  const toggleAudio = async () => {
+    const newState = await chiptuneEngine.toggle()
     setIsPlaying(newState)
   }
 
@@ -31,7 +32,7 @@ export const Header: React.FC = () => {
         }`}
       >
         {/* Logotip - 8-Bit Uzaylı Kafası Logo 👽 */}
-        <a href="#" className="flex items-center space-x-3 group">
+        <Link href="/" className="flex items-center space-x-3 group">
           <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-emerald-400 via-cyan-500 to-purple-500 flex items-center justify-center text-base group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(16,185,129,0.4)]">
             👽
           </div>
@@ -43,7 +44,7 @@ export const Header: React.FC = () => {
               Grafik Tasarım & UI Uzmanı
             </span>
           </div>
-        </a>
+        </Link>
 
         {/* Masaüstü Navigasyon Menüsü */}
         <nav className="hidden md:flex items-center space-x-8 text-xs font-mono uppercase tracking-wider text-white/70">
@@ -51,6 +52,10 @@ export const Header: React.FC = () => {
           <a href="#specs" className="hover:text-cyan-400 transition-colors">Yetenekler</a>
           <a href="#contact" className="hover:text-cyan-400 transition-colors">İletişim</a>
           <a href="#visualizer" className="hover:text-cyan-400 transition-colors">GAME</a>
+          <Link href="/not-found" className="text-pink-400 hover:text-pink-300 transition-colors flex items-center space-x-1">
+            <Paintbrush className="w-3.5 h-3.5" />
+            <span>404 SAYFASI</span>
+          </Link>
         </nav>
 
         {/* Kontroller & 8-Bit Ses Butonu */}
@@ -60,12 +65,12 @@ export const Header: React.FC = () => {
             aria-label="8-bit retro arka plan müziğini aç/kapat"
             className={`px-3.5 py-1.5 rounded-full border text-[10px] font-mono transition-all flex items-center space-x-1.5 ${
               isPlaying
-                ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 shadow-[0_0_20px_rgba(0,240,255,0.3)] animate-pulse'
-                : 'glass-card border-white/10 text-white/60 hover:border-cyan-400/40 hover:text-white'
+                ? 'bg-cyan-500/30 border-cyan-400 text-cyan-300 shadow-[0_0_20px_rgba(0,240,255,0.5)] animate-pulse'
+                : 'glass-card border-white/10 text-white/80 hover:border-cyan-400/60 hover:text-white'
             }`}
           >
-            <Music className="w-3 h-3" />
-            <span>{isPlaying ? '8-BİT MÜZİK AÇIK' : '8-BİT MÜZİK ÇAL'}</span>
+            <Music className="w-3.5 h-3.5" />
+            <span>{isPlaying ? '🎵 8-BİT MÜZİK AÇIK' : '🎶 8-BİT MÜZİK ÇAL'}</span>
           </button>
 
           <a
@@ -81,7 +86,7 @@ export const Header: React.FC = () => {
         <div className="md:hidden flex items-center space-x-3">
           <button
             onClick={toggleAudio}
-            className="p-2 rounded-full glass-card text-cyan-400"
+            className={`p-2 rounded-full glass-card transition-all ${isPlaying ? 'text-cyan-400 border border-cyan-400 animate-pulse' : 'text-white/80'}`}
             title="8-Bit Müzik"
           >
             <Music className="w-4 h-4" />
@@ -106,6 +111,10 @@ export const Header: React.FC = () => {
           <a href="#specs" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">Yetenekler</a>
           <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">İletişim</a>
           <a href="#visualizer" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">GAME</a>
+          <Link href="/not-found" onClick={() => setMobileMenuOpen(false)} className="text-pink-400 hover:text-pink-300 flex items-center space-x-2">
+            <Paintbrush className="w-4 h-4" />
+            <span>404 BOYAMA SAYFASI</span>
+          </Link>
           <a
             href="mailto:cenanalihan@gmail.com"
             onClick={() => setMobileMenuOpen(false)}

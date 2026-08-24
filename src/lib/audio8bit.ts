@@ -1,4 +1,4 @@
-// Web Audio API 8-Bit Chiptune Engine — Pure Retro Synth BGM
+// Web Audio API 8-Bit Chiptune Engine — Pure Retro Synth BGM (Robust Web Audio)
 
 class ChiptuneAudioEngine {
   private ctx: AudioContext | null = null
@@ -21,36 +21,36 @@ class ChiptuneAudioEngine {
     164.81, 0, 164.81, 0, 174.61, 0, 174.61, 0,
   ]
 
-  private initCtx() {
+  private async initCtx() {
     if (!this.ctx) {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
       this.ctx = new AudioCtx()
       this.masterGain = this.ctx.createGain()
-      this.masterGain.gain.value = 0.12
+      this.masterGain.gain.value = 0.25 // Clear audible volume
       this.masterGain.connect(this.ctx.destination)
     }
     if (this.ctx.state === 'suspended') {
-      this.ctx.resume()
+      await this.ctx.resume()
     }
   }
 
-  public toggle(): boolean {
+  public async toggle(): Promise<boolean> {
     if (this.isPlaying) {
       this.stop()
       return false
     } else {
-      this.start()
+      await this.start()
       return true
     }
   }
 
-  public start() {
-    this.initCtx()
+  public async start() {
+    await this.initCtx()
     if (this.isPlaying) return
     this.isPlaying = true
     this.step = 0
 
-    this.intervalId = setInterval(() => this.playNextNote(), 140)
+    this.intervalId = setInterval(() => this.playNextNote(), 130)
   }
 
   public stop() {
@@ -79,14 +79,14 @@ class ChiptuneAudioEngine {
       osc.type = 'square'
       osc.frequency.setValueAtTime(melodyFreq, now)
 
-      noteGain.gain.setValueAtTime(0.08, now)
-      noteGain.gain.exponentialRampToValueAtTime(0.001, now + 0.12)
+      noteGain.gain.setValueAtTime(0.12, now)
+      noteGain.gain.linearRampToValueAtTime(0.001, now + 0.11)
 
       osc.connect(noteGain)
       noteGain.connect(this.masterGain)
 
       osc.start(now)
-      osc.stop(now + 0.13)
+      osc.stop(now + 0.12)
     }
 
     // 2. 8-Bit Triangle Bass
@@ -98,14 +98,14 @@ class ChiptuneAudioEngine {
       bassOsc.type = 'triangle'
       bassOsc.frequency.setValueAtTime(bassFreq, now)
 
-      bassGain.gain.setValueAtTime(0.14, now)
-      bassGain.gain.exponentialRampToValueAtTime(0.01, now + 0.18)
+      bassGain.gain.setValueAtTime(0.18, now)
+      bassGain.gain.linearRampToValueAtTime(0.01, now + 0.16)
 
       bassOsc.connect(bassGain)
       bassGain.connect(this.masterGain)
 
       bassOsc.start(now)
-      bassOsc.stop(now + 0.2)
+      bassOsc.stop(now + 0.18)
     }
 
     this.step++
