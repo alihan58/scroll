@@ -3,15 +3,18 @@ import './globals.css'
 import { faqs } from '@/data/faqs'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://alihancenan.com'),
+  metadataBase: new URL('https://alihancenan1.vercel.app'),
   title: {
-    default: 'Alihan CENAN — Grafik Tasarım Uzmanı & Kreatif Web Geliştirici (Kartal, İstanbul)',
+    default: 'Alihan CENAN — Grafik Tasarım Uzmanı & Kreatif Web Geliştirici',
     template: '%s | Alihan CENAN',
   },
   description:
-    'Alihan CENAN resmi portfolyosu. Kurumsal Kimlik, Logo Tasarımı, UI/UX Web Tasarımı, Motion Graphics, 3D Render, İnteraktif Scrollytelling ve Next.js Mimarisi. Home Office - Kartal / İstanbul.',
+    'Alihan CENAN resmi dijital portfolyosu. Kurumsal Kimlik, Logo Tasarımı, UI/UX Web Tasarımı, Motion Graphics, 3D Render, İnteraktif Scrollytelling ve Next.js Mimarisi. Kartal / İstanbul.',
   keywords: [
     'Alihan CENAN',
+    'Alihan Cenan',
+    'alihan cenan',
+    'alihancenan1.vercel.app',
     'Grafik Tasarım Uzmanı Kartal',
     'Kreatif Web Geliştirici İstanbul',
     'UI/UX Tasarım',
@@ -36,7 +39,7 @@ export const metadata: Metadata = {
     telephone: true,
   },
   alternates: {
-    canonical: '/',
+    canonical: 'https://alihancenan1.vercel.app',
   },
   robots: {
     index: true,
@@ -52,8 +55,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Alihan CENAN — Grafik Tasarım Uzmanı & Kreatif Web Geliştirici',
     description:
-      'Kurumsal Kimlik, UI/UX Web Tasarımı, 3D Render, Motion Graphics ve Yüksek Performanslı Next.js Dijital Deneyimleri. Home Office - Kartal, İstanbul.',
-    url: 'https://alihancenan.com',
+      'Kurumsal Kimlik, UI/UX Web Tasarımı, 3D Render, Motion Graphics ve Yüksek Performanslı Next.js Dijital Deneyimleri. Kartal, İstanbul.',
+    url: 'https://alihancenan1.vercel.app',
     siteName: 'Alihan CENAN Portfolyo',
     locale: 'tr_TR',
     type: 'website',
@@ -72,13 +75,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // JSON-LD WebSite Schema for Google Sitelinks & #1 Search Ranking
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Alihan CENAN',
+    alternateName: ['Alihan Cenan Portfolyo', 'Alihan CENAN Web'],
+    url: 'https://alihancenan1.vercel.app',
+  }
+
   // JSON-LD Person Schema
   const personSchema = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Alihan CENAN',
     jobTitle: 'Grafik Tasarım Uzmanı & Kreatif Web Geliştirici',
-    url: 'https://alihancenan.com',
+    url: 'https://alihancenan1.vercel.app',
     sameAs: [
       'https://www.linkedin.com/in/alihancenan',
       'https://github.com/alihan58',
@@ -97,8 +109,8 @@ export default function RootLayout({
   const localBusinessSchema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: 'Alihan CENAN — Grafik Tasarım & Web Geliştirme (Home Office)',
-    image: 'https://alihancenan.com/og-image.jpg',
+    name: 'Alihan CENAN — Grafik Tasarım & Web Geliştirme',
+    image: 'https://alihancenan1.vercel.app/og-image.jpg',
     telephone: '+90-539-407-9872',
     email: 'cenanalihan@gmail.com',
     address: {
@@ -146,31 +158,31 @@ export default function RootLayout({
         '@type': 'ListItem',
         position: 1,
         name: 'Ana Sayfa',
-        item: 'https://alihancenan.com',
+        item: 'https://alihancenan1.vercel.app',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Hizmetler',
-        item: 'https://alihancenan.com/#features',
+        item: 'https://alihancenan1.vercel.app/#features',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Yetenekler',
-        item: 'https://alihancenan.com/#specs',
+        item: 'https://alihancenan1.vercel.app/#specs',
       },
       {
         '@type': 'ListItem',
         position: 4,
         name: 'Vaka Çalışmaları',
-        item: 'https://alihancenan.com/#case-studies',
+        item: 'https://alihancenan1.vercel.app/#case-studies',
       },
       {
         '@type': 'ListItem',
         position: 5,
         name: 'İletişim',
-        item: 'https://alihancenan.com/#contact',
+        item: 'https://alihancenan1.vercel.app/#contact',
       },
     ],
   }
@@ -184,7 +196,11 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Press+Start+2P&display=swap"
           rel="stylesheet"
         />
-        {/* JSON-LD Rich Schemas */}
+        {/* JSON-LD Rich Schemas for #1 Google Search Ranking */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
