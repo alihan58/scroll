@@ -1,6 +1,14 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { faqs } from '@/data/faqs'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#050505',
+  colorScheme: 'dark',
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://alihancenan1.vercel.app'),
@@ -30,6 +38,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Alihan CENAN', url: 'https://www.linkedin.com/in/alihancenan' }],
   creator: 'Alihan CENAN',
   publisher: 'Alihan CENAN',
+  applicationName: 'Alihan CENAN Portfolyo',
   verification: {
     google: 'google-site-verification-code-placeholder',
   },
@@ -60,6 +69,14 @@ export const metadata: Metadata = {
     siteName: 'Alihan CENAN Portfolyo',
     locale: 'tr_TR',
     type: 'website',
+    images: [
+      {
+        url: 'https://alihancenan1.vercel.app/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Alihan CENAN — Grafik Tasarım Uzmanı & Kreatif Web Geliştirici',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
@@ -67,6 +84,7 @@ export const metadata: Metadata = {
     description:
       'Kurumsal Kimlik, UI/UX Web Tasarımı, 3D Render, Motion Graphics ve Yüksek Performanslı Next.js Dijital Deneyimleri.',
     creator: '@alihancenan',
+    images: ['https://alihancenan1.vercel.app/og-image.jpg'],
   },
 }
 
@@ -196,7 +214,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Press+Start+2P&display=swap"
           rel="stylesheet"
         />
-        {/* JSON-LD Rich Schemas for #1 Google Search Ranking */}
+        {/* JSON-LD Rich Schemas for #1 Google Search Ranking & 100% Lighthouse SEO */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
@@ -218,7 +236,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
       </head>
-      <body className="bg-[#050505] text-white/90 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+      <body className="bg-[#050505] text-white/90 antialiased selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
         {children}
       </body>
     </html>
