@@ -3,6 +3,7 @@ import { Header } from '@/components/header'
 import { ScrollytellingSection } from '@/components/scrollytelling-section'
 import FeatureGrid from '@/components/FeatureGrid'
 import { CaseStudies } from '@/components/CaseStudies'
+import { ResumeSection } from '@/components/ResumeSection'
 import InteractiveAudioVisualizer from '@/components/InteractiveAudioVisualizer'
 import TechSpecs from '@/components/TechSpecs'
 import { FAQSection } from '@/components/FAQSection'
@@ -29,8 +30,11 @@ export default function Home() {
       {/* Graphic Design & Visual Services */}
       <FeatureGrid />
 
-      {/* Portfolio Case Studies */}
+      {/* 12-Image Portfolio Showcase with Presentation & Grid Modes + Case Studies */}
       <CaseStudies />
+
+      {/* Official Resume & Academic Credentials Section */}
+      <ResumeSection />
 
       {/* 8-Bit Cyber Pong VS Computer Arcade Game */}
       <InteractiveAudioVisualizer />

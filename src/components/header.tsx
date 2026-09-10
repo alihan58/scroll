@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Music, ArrowUpRight, Menu, X, Paintbrush } from 'lucide-react'
+import { Music, ArrowUpRight, Menu, X, Paintbrush, FileText } from 'lucide-react'
 import { chiptuneEngine } from '@/lib/audio8bit'
 
 export const Header: React.FC = () => {
@@ -38,23 +38,28 @@ export const Header: React.FC = () => {
           </div>
           <div className="flex flex-col">
             <span className="font-extrabold text-sm tracking-tight text-white/90 group-hover:text-cyan-400 transition-colors leading-none">
-              ALIHAN CENAN
+              ALİHAN CENAN
             </span>
             <span className="text-[9px] font-mono text-white/40 tracking-wider uppercase mt-0.5">
-              Grafik Tasarım & UI Uzmanı
+              Grafik Tasarım & Görsel İletişim
             </span>
           </div>
         </Link>
 
         {/* Masaüstü Navigasyon Menüsü */}
-        <nav className="hidden md:flex items-center space-x-8 text-xs font-mono uppercase tracking-wider text-white/70">
+        <nav className="hidden md:flex items-center space-x-7 text-xs font-mono uppercase tracking-wider text-white/70">
           <a href="#features" className="hover:text-cyan-400 transition-colors">Hizmetler</a>
+          <a href="#case-studies" className="hover:text-cyan-400 transition-colors">Portfolyo</a>
+          <a href="#resume" className="hover:text-cyan-400 transition-colors flex items-center space-x-1">
+            <FileText className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Özgeçmiş / CV</span>
+          </a>
           <a href="#specs" className="hover:text-cyan-400 transition-colors">Yetenekler</a>
           <a href="#contact" className="hover:text-cyan-400 transition-colors">İletişim</a>
           <a href="#visualizer" className="hover:text-cyan-400 transition-colors">GAME</a>
           <Link href="/not-found" className="text-pink-400 hover:text-pink-300 transition-colors flex items-center space-x-1">
             <Paintbrush className="w-3.5 h-3.5" />
-            <span>404 SAYFASI</span>
+            <span>404</span>
           </Link>
         </nav>
 
@@ -70,7 +75,7 @@ export const Header: React.FC = () => {
             }`}
           >
             <Music className="w-3.5 h-3.5" />
-            <span>{isPlaying ? '🎵 8-BİT MÜZİK AÇIK' : '🎶 8-BİT MÜZİK ÇAL'}</span>
+            <span>{isPlaying ? '🎵 MÜZİK AÇIK' : '🎶 8-BİT MÜZİK'}</span>
           </button>
 
           <a
@@ -108,6 +113,11 @@ export const Header: React.FC = () => {
           className="md:hidden mt-3 p-6 glass-panel rounded-2xl border border-white/10 flex flex-col space-y-4 text-sm font-mono uppercase tracking-wider max-w-6xl mx-auto"
         >
           <a href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">Hizmetler</a>
+          <a href="#case-studies" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">Portfolyo</a>
+          <a href="#resume" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400 flex items-center space-x-2">
+            <FileText className="w-4 h-4 text-cyan-400" />
+            <span>Özgeçmiş / CV</span>
+          </a>
           <a href="#specs" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">Yetenekler</a>
           <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">İletişim</a>
           <a href="#visualizer" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">GAME</a>
