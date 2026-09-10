@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -21,6 +21,9 @@ import {
   Wand2,
   BookmarkCheck,
   Video,
+  Eye,
+  X,
+  ExternalLink,
 } from 'lucide-react'
 
 const educationList = [
@@ -30,7 +33,7 @@ const educationList = [
     school: 'İstanbul Gedik Üniversitesi',
     department: 'Görsel İletişim Tasarımı',
     badge: 'Devam Ediyor',
-    description: 'Akademik göstergebilim, hareketli grafikler ve modern görsel iletişim kuramları üzerine tez çalışması.',
+    description: 'Akademik göstergebilim, hareketli grafikler ve modern görsel iletişim kuramları üzerine lisansüstü tez çalışması.',
   },
   {
     period: '2020 - 2023',
@@ -46,7 +49,7 @@ const educationList = [
     school: 'Marmara Üniversitesi',
     department: 'Grafik Tasarımı',
     badge: 'Tamamlandı',
-    description: 'Tipografi, kurumsal kimlik, ambalaj tasarımı, baskı teknikleri ve renk teorisi odaklı temel eğitim.',
+    description: 'Tipografi, kurumsal kimlik, ambalaj tasarımı, baskı teknikleri ve renk teorisi odaklı temel sanat eğitimi.',
   },
   {
     period: '2017',
@@ -87,7 +90,7 @@ const certifications = [
     border: 'border-emerald-500/30',
   },
   {
-    icon: FilmIcon,
+    icon: Video,
     title: 'Akademik Tez Çalışması',
     issuer: 'Lisansüstü Tez Projesi',
     detail: '“Alfred Hitchcock Film Afişlerinin Göstergebilimsel Olarak Karşılaştırmalı Analizi ve Hareketlendirilmesi”.',
@@ -96,10 +99,6 @@ const certifications = [
     border: 'border-pink-500/30',
   },
 ]
-
-function FilmIcon(props: any) {
-  return <Video {...props} />
-}
 
 const softwareSkills = [
   { name: 'Adobe Illustrator', level: 98, category: 'Vektör & Logo' },
@@ -126,6 +125,7 @@ const seminars = [
 
 export const ResumeSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'education' | 'skills' | 'credentials' | 'seminars'>('education')
+  const [pdfModalOpen, setPdfModalOpen] = useState(false)
 
   return (
     <section id="resume" className="py-32 px-6 bg-[#050505] relative overflow-hidden border-t border-white/5">
@@ -134,7 +134,7 @@ export const ResumeSection: React.FC = () => {
 
       <div className="max-w-7xl mx-auto relative z-10">
         
-        {/* Section Header with CV Download Action */}
+        {/* Section Header with CV Action Buttons */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-8 pb-12 border-b border-white/10">
           <div className="max-w-3xl">
             <motion.div
@@ -143,7 +143,7 @@ export const ResumeSection: React.FC = () => {
               viewport={{ once: true }}
               className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full glass-card border border-white/10 text-xs font-mono text-cyan-400 uppercase tracking-widest mb-4"
             >
-              <Sparkles className="w-3.5 h-3.5" />
+              <FileText className="w-3.5 h-3.5 text-cyan-400" />
               <span>RESMİ ÖZGEÇMİŞ & AKADEMİK BİYOGRAFİ</span>
             </motion.div>
 
@@ -184,25 +184,35 @@ export const ResumeSection: React.FC = () => {
               </span>
               <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full glass-card border border-white/5">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>2018 - 2026 Freelance Tasarım</span>
+                <span>2018 - 2026 Freelance Tasarım Hizmeti</span>
               </span>
             </div>
           </div>
 
-          {/* Download Official CV Button */}
+          {/* Dual Action Buttons: Preview PDF & Download PDF */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="flex-shrink-0"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-shrink-0"
           >
+            {/* View PDF In Modal Button */}
+            <button
+              onClick={() => setPdfModalOpen(true)}
+              className="inline-flex items-center justify-center space-x-2.5 px-6 py-4 rounded-full glass-card border border-cyan-400/40 text-cyan-300 font-extrabold text-xs font-mono uppercase tracking-wider hover:bg-cyan-500/20 hover:border-cyan-400 hover:scale-105 transition-all shadow-[0_0_25px_rgba(0,240,255,0.25)]"
+            >
+              <Eye className="w-4 h-4" />
+              <span>PDF CV'Yİ GÖRÜNTÜLE</span>
+            </button>
+
+            {/* Direct Download PDF Button */}
             <a
               href="/Alihan_CENAN_CV.pdf"
               download="Alihan_CENAN_CV_Ozgecmis.pdf"
-              className="inline-flex items-center space-x-3 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-black font-extrabold text-xs font-mono uppercase tracking-wider hover:scale-105 shadow-[0_0_30px_rgba(0,240,255,0.4)] transition-all group"
+              className="inline-flex items-center justify-center space-x-2.5 px-6 py-4 rounded-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-black font-extrabold text-xs font-mono uppercase tracking-wider hover:scale-105 shadow-[0_0_30px_rgba(0,240,255,0.4)] transition-all group"
             >
               <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
-              <span>RESMİ CV'Yİ İNDİR (PDF)</span>
+              <span>İNDİR (PDF)</span>
             </a>
           </motion.div>
         </div>
@@ -356,7 +366,6 @@ export const ResumeSection: React.FC = () => {
                     </span>
                   </div>
 
-                  {/* Level Progress Bar */}
                   <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
@@ -406,6 +415,82 @@ export const ResumeSection: React.FC = () => {
         </AnimatePresence>
 
       </div>
+
+      {/* Interactive In-Browser PDF CV Viewer Modal */}
+      <AnimatePresence>
+        {pdfModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setPdfModalOpen(false)}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-2xl flex items-center justify-center p-3 sm:p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-5xl w-full h-[90vh] glass-panel rounded-3xl overflow-hidden border border-white/20 shadow-[0_0_90px_rgba(0,240,255,0.3)] flex flex-col bg-[#0a0a0a]"
+            >
+              {/* PDF Viewer Header */}
+              <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between bg-black/50">
+                <div className="flex items-center space-x-3">
+                  <FileText className="w-5 h-5 text-cyan-400" />
+                  <div>
+                    <h3 className="text-sm sm:text-base font-bold text-white">
+                      Alihan_CENAN_CV_Özgeçmiş.pdf
+                    </h3>
+                    <span className="text-[10px] font-mono text-white/50 block">
+                      Web - Grafik & Görsel İletişim Tasarımı Uzmanı Resmi CV
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <a
+                    href="/Alihan_CENAN_CV.pdf"
+                    download="Alihan_CENAN_CV_Ozgecmis.pdf"
+                    className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-cyan-400/20 text-cyan-300 border border-cyan-400/40 text-xs font-mono uppercase tracking-wider hover:bg-cyan-400 hover:text-black transition-colors"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">İndir</span>
+                  </a>
+
+                  <a
+                    href="/Alihan_CENAN_CV.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-full glass-card border border-white/10 text-white/70 hover:text-white transition-colors"
+                    title="Yeni Sekmede Aç"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+
+                  <button
+                    onClick={() => setPdfModalOpen(false)}
+                    className="p-2 rounded-full glass-card border border-white/10 text-white/70 hover:text-white hover:border-red-400 transition-colors"
+                    title="Kapat"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Embedded Interactive PDF Viewer */}
+              <div className="flex-1 w-full h-full bg-[#1e1e1e] relative">
+                <iframe
+                  src="/Alihan_CENAN_CV.pdf#toolbar=1"
+                  className="w-full h-full border-none"
+                  title="Alihan CENAN CV PDF Görüntüleyici"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   )
 }
