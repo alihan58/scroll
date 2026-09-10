@@ -36,12 +36,12 @@ interface PortfolioItem {
   concept: string
 }
 
-// 12 Works categorized strictly based on user's renamed filenames
+// 12 Works categorized strictly based on user files with clean, web-safe URLs
 const portfolioImages: PortfolioItem[] = [
-  // 1. AFİŞ TASARIMI
+  // 1. AFİŞ TASARIMI (4 ESER)
   {
     id: 1,
-    src: '/portfolio/AFIS 1.jpeg',
+    src: '/portfolio/afis-1.jpeg',
     title: 'Kültürel & Sanatsal Tipografik Afiş',
     category: 'Afiş Tasarımı',
     client: 'Sanat & Kültür İnisiyatifi',
@@ -53,7 +53,7 @@ const portfolioImages: PortfolioItem[] = [
   },
   {
     id: 2,
-    src: '/portfolio/AFIS.jpeg',
+    src: '/portfolio/afis-2.jpeg',
     title: 'Alfred Hitchcock Sineması Göstergebilimsel Afiş',
     category: 'Afiş Tasarımı',
     client: 'Akademik Tez & Sergi',
@@ -65,7 +65,7 @@ const portfolioImages: PortfolioItem[] = [
   },
   {
     id: 3,
-    src: '/portfolio/AFIS.JPG',
+    src: '/portfolio/afis-3.jpg',
     title: 'Sinematik & Deneysel Tipografi Afişi',
     category: 'Afiş Tasarımı',
     client: 'Bağımsız Sanat Kolektifi',
@@ -77,7 +77,7 @@ const portfolioImages: PortfolioItem[] = [
   },
   {
     id: 4,
-    src: '/portfolio/AFISS.JPG',
+    src: '/portfolio/afis-4.jpg',
     title: 'Modern Sergi & Etkinlik Afiş Tasarımı',
     category: 'Afiş Tasarımı',
     client: 'Tasarım Günleri',
@@ -88,10 +88,10 @@ const portfolioImages: PortfolioItem[] = [
     concept: 'Pozitif-negatif alan kontrastı ve canlı renk dinamizmi.',
   },
 
-  // 2. KURUMSAL KİMLİK
+  // 2. KURUMSAL KİMLİK (3 ESER)
   {
     id: 5,
-    src: '/portfolio/KURUMSAL KIMLIK 1.jpg',
+    src: '/portfolio/kurumsal-kimlik-1.jpg',
     title: 'Kurumsal Logo Mimarisi & Marka Kimliği',
     category: 'Kurumsal Kimlik',
     client: 'Apex Creative Studio',
@@ -103,7 +103,7 @@ const portfolioImages: PortfolioItem[] = [
   },
   {
     id: 6,
-    src: '/portfolio/KURUMSAL KIMLIK 2.jpg',
+    src: '/portfolio/kurumsal-kimlik-2.jpg',
     title: 'Bütünsel Kurumsal Kimlik & İletişim Kiti',
     category: 'Kurumsal Kimlik',
     client: 'Nexus Global',
@@ -115,7 +115,7 @@ const portfolioImages: PortfolioItem[] = [
   },
   {
     id: 7,
-    src: '/portfolio/KURUMSAL KIMLIK 3.jpg',
+    src: '/portfolio/kurumsal-kimlik-3.jpg',
     title: 'Minimalist Logomark & Tipografik Amblem',
     category: 'Kurumsal Kimlik',
     client: 'Vanguard Ventures',
@@ -126,10 +126,10 @@ const portfolioImages: PortfolioItem[] = [
     concept: 'Sadelik felsefesi ve tek hamlede tanınabilir monoline estetik.',
   },
 
-  // 3. AMBALAJ TASARIMI
+  // 3. AMBALAJ TASARIMI (2 ESER)
   {
     id: 8,
-    src: '/portfolio/AMBALAJ.jpg',
+    src: '/portfolio/ambalaj-1.jpg',
     title: 'Premium Ürün Ambalajı & Kutu Tasarımı',
     category: 'Ambalaj Tasarımı',
     client: 'Botanica Luxury Line',
@@ -141,7 +141,7 @@ const portfolioImages: PortfolioItem[] = [
   },
   {
     id: 9,
-    src: '/portfolio/AMBALAJJ.jpg',
+    src: '/portfolio/ambalaj-2.jpg',
     title: 'Ekolojik & Modern Ambalaj Konsepti',
     category: 'Ambalaj Tasarımı',
     client: 'EcoAura Organics',
@@ -152,10 +152,10 @@ const portfolioImages: PortfolioItem[] = [
     concept: 'Doğanın yalın renkleri ile modern tipografinin birleşimi.',
   },
 
-  // 4. UI / UX & WEB TASARIM
+  // 4. UI / UX & WEB TASARIM (3 ESER)
   {
     id: 10,
-    src: '/portfolio/UX UI.jpeg',
+    src: '/portfolio/ux-ui-1.jpeg',
     title: 'Mobil Uygulama Arayüzü & Tasarım Sistemi',
     category: 'UI / UX & Web',
     client: 'FinTech Pulse',
@@ -167,7 +167,7 @@ const portfolioImages: PortfolioItem[] = [
   },
   {
     id: 11,
-    src: '/portfolio/UX UI 2.jpg',
+    src: '/portfolio/ux-ui-2.jpg',
     title: 'Yüksek Dönüşümlü Web & Dashboard Arayüzü',
     category: 'UI / UX & Web',
     client: 'CyberCore Dashboard',
@@ -179,7 +179,7 @@ const portfolioImages: PortfolioItem[] = [
   },
   {
     id: 12,
-    src: '/portfolio/WEB UXUI.jpeg',
+    src: '/portfolio/web-uxui.jpeg',
     title: 'Kreatif Dijital Web Deneyimi & Scrollytelling',
     category: 'UI / UX & Web',
     client: 'Studio Hyperion',
@@ -199,7 +199,7 @@ const playMagicChime = () => {
     const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
     if (!AudioContextClass) return
     const ctx = new AudioContextClass()
-    const notes = [587.33, 739.99, 880.0, 1174.66, 1479.98, 1760.0] // D5, F#5, A5, D6, F#6, A6 (Magic Fairy Arpeggio)
+    const notes = [587.33, 739.99, 880.0, 1174.66, 1479.98, 1760.0]
     notes.forEach((freq, idx) => {
       const osc = ctx.createOscillator()
       const gain = ctx.createGain()
@@ -280,7 +280,7 @@ export const CaseStudies: React.FC = () => {
         const s = sparkles[i]
         s.x += s.vx
         s.y += s.vy
-        s.vy += 0.06 // gentle magic gravity
+        s.vy += 0.06
         s.vx *= 0.97
         s.vy *= 0.97
         s.alpha -= s.decay
@@ -300,7 +300,6 @@ export const CaseStudies: React.FC = () => {
         ctx.rotate(s.rotation)
 
         if (s.isStar) {
-          // Draw 4-point magic star ✨
           ctx.beginPath()
           const r = s.size * 2
           ctx.moveTo(0, -r)
@@ -310,7 +309,6 @@ export const CaseStudies: React.FC = () => {
           ctx.quadraticCurveTo(0, 0, 0, -r)
           ctx.fill()
         } else {
-          // Draw round glowing magic orb
           ctx.beginPath()
           ctx.arc(0, 0, s.size, 0, Math.PI * 2)
           ctx.fill()
