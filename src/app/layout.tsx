@@ -13,26 +13,26 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://alihancenan.vercel.app'),
   title: {
-    default: 'Alihan CENAN — Grafik Tasarım Uzmanı & Kreatif Web Geliştirici',
+    default: 'Alihan CENAN — Web - Grafik & Görsel İletişim Tasarımı Uzmanı',
     template: '%s | Alihan CENAN',
   },
   description:
-    'Alihan CENAN resmi dijital portfolyosu. Kurumsal Kimlik, Logo Tasarımı, UI/UX Web Tasarımı, Motion Graphics, 3D Render, İnteraktif Scrollytelling ve Next.js Mimarisi. Kartal / İstanbul.',
+    'Alihan CENAN resmi dijital portfolyosu. Kurumsal Kimlik, Logo Tasarımı, Afiş Tasarımı, Ambalaj, UI/UX Web Tasarımı, 3D Render, Motion Graphics ve Next.js Mimarisi. Kartal / İstanbul.',
   keywords: [
     'Alihan CENAN',
     'Alihan Cenan',
     'alihan cenan',
     'alihancenan.vercel.app',
     'Grafik Tasarım Uzmanı Kartal',
-    'Kreatif Web Geliştirici İstanbul',
+    'Görsel İletişim Tasarımı İstanbul',
     'UI/UX Tasarım',
     'Logo Tasarımı',
     'Kurumsal Kimlik',
-    '3D Ürün Rendering',
+    'Afiş Tasarımı',
+    'Ambalaj Tasarımı',
+    '3D Render',
     'Motion Graphics',
-    'Sosyal Medya Tasarımı',
     'Next.js Portfolio',
-    'Web Tasarım Türkiye',
     'Freelance Grafik Tasarımcı Kartal',
   ],
   authors: [{ name: 'Alihan CENAN', url: 'https://www.linkedin.com/in/alihancenan' }],
@@ -62,9 +62,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Alihan CENAN — Grafik Tasarım Uzmanı & Kreatif Web Geliştirici',
+    title: 'Alihan CENAN — Web - Grafik & Görsel İletişim Tasarımı Uzmanı',
     description:
-      'Kurumsal Kimlik, UI/UX Web Tasarımı, 3D Render, Motion Graphics ve Yüksek Performanslı Next.js Dijital Deneyimleri. Kartal, İstanbul.',
+      'Kurumsal Kimlik, Logo, Afiş, Ambalaj, UI/UX Web Tasarımı, 3D Render, Motion Graphics ve Yüksek Performanslı Next.js Dijital Deneyimleri. Kartal, İstanbul.',
     url: 'https://alihancenan.vercel.app',
     siteName: 'Alihan CENAN Portfolyo',
     locale: 'tr_TR',
@@ -74,13 +74,13 @@ export const metadata: Metadata = {
         url: 'https://alihancenan.vercel.app/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Alihan CENAN — Grafik Tasarım Uzmanı & Kreatif Web Geliştirici',
+        alt: 'Alihan CENAN — Web - Grafik & Görsel İletişim Tasarımı Uzmanı',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Alihan CENAN — Grafik Tasarım Uzmanı & Kreatif Web Geliştirici',
+    title: 'Alihan CENAN — Web - Grafik & Görsel İletişim Tasarımı Uzmanı',
     description:
       'Kurumsal Kimlik, UI/UX Web Tasarımı, 3D Render, Motion Graphics ve Yüksek Performanslı Next.js Dijital Deneyimleri.',
     creator: '@alihancenan',
@@ -93,7 +93,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // JSON-LD WebSite Schema for Google Sitelinks & #1 Search Ranking
+  // JSON-LD WebSite Schema
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -102,12 +102,12 @@ export default function RootLayout({
     url: 'https://alihancenan.vercel.app',
   }
 
-  // JSON-LD Person Schema
+  // JSON-LD Person Schema (Güncel CV'deki akademik ve mesleki unvanlarla)
   const personSchema = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Alihan CENAN',
-    jobTitle: 'Grafik Tasarım Uzmanı & Kreatif Web Geliştirici',
+    jobTitle: 'Web - Grafik & Görsel İletişim Tasarımı Uzmanı',
     url: 'https://alihancenan.vercel.app',
     sameAs: [
       'https://www.linkedin.com/in/alihancenan',
@@ -115,6 +115,11 @@ export default function RootLayout({
     ],
     email: 'cenanalihan@gmail.com',
     telephone: '+90-539-407-9872',
+    alumniOf: [
+      { '@type': 'EducationalOrganization', name: 'İstanbul Gedik Üniversitesi (Master / Lisans)' },
+      { '@type': 'EducationalOrganization', name: 'Marmara Üniversitesi (Önlisans)' },
+      { '@type': 'EducationalOrganization', name: 'Yakacık Anadolu Teknik Lisesi' },
+    ],
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Kartal',
@@ -187,18 +192,24 @@ export default function RootLayout({
       {
         '@type': 'ListItem',
         position: 3,
+        name: 'Portfolyo',
+        item: 'https://alihancenan.vercel.app/#case-studies',
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Özgeçmiş / CV',
+        item: 'https://alihancenan.vercel.app/#resume',
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
         name: 'Yetenekler',
         item: 'https://alihancenan.vercel.app/#specs',
       },
       {
         '@type': 'ListItem',
-        position: 4,
-        name: 'Vaka Çalışmaları',
-        item: 'https://alihancenan.vercel.app/#case-studies',
-      },
-      {
-        '@type': 'ListItem',
-        position: 5,
+        position: 6,
         name: 'İletişim',
         item: 'https://alihancenan.vercel.app/#contact',
       },
